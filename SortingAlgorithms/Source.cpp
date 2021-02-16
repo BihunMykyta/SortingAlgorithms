@@ -1,5 +1,6 @@
-#include<iostream>
+#include <iostream>
 #include <ctime>
+#include <typeinfo>
 
 using namespace std;
 
@@ -59,36 +60,49 @@ public:
 
 };
 
+void getCorrectInput(int& value) {
+    cin >> value;
+    while (cin.fail()) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Неправильный ввод. Пожалуйста, попробуйте еще раз: ";
+        cin >> value;
+    }
+}
+
 int main()
 {
     setlocale(LC_CTYPE, "rus");
-    int n;
-    char variant;
+    int n, variant;
 
-    cout << "Введите желаемый вариант заполнения массива : \n \t1) Заполнить собственными значениями \n \t2) Заполнить рандомными значениями\n" << "Ваш выбор: ";
-    cin >> variant;
-
-    cout << "Введите размер массива: ";
-    cin >> n;
+    do {
+        cout << "Введите желаемый вариант заполнения массива : \n \t1) Заполнить собственными значениями \n \t2) Заполнить рандомными значениями\n" << "Ваш выбор: ";
+        getCorrectInput(variant);
+    } while (variant < 0 || variant > 2);
+    
+    do {
+        cout << "Введите размер массива: ";
+        getCorrectInput(n);
+    } while (n < 0);
 
     switch (variant)
     {
-    case '1': {
-        Array array(n);
-        cout << "Массив" << endl;
-        array.printArray();
-        break;
-    }
-    case '2': {
-        Array array(n, true);
-        cout << "Массив" << endl;
-        array.printArray();
-        break;
-    }
-    default:
-    {
-        cout << "Необходимо выбрать один из вариантов" << endl;
-    }
+        case 1: {
+            Array array(n);
+            cout << "Массив: " << endl;
+            array.printArray();
+            break;
+        }
+        case 2: {
+            Array array(n, true);
+            cout << "Массив: " << endl;
+            array.printArray();
+            break;
+        }
+        default:
+        {
+            cout << "Необходимо выбрать один из вариантов" << endl;
+        }
     }
 
     system("pause");
